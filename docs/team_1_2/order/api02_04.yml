@@ -1,0 +1,105 @@
+paths:
+    '/api/orders/{orderNumber}':
+        # GET --------------------------------------------------------------------------------------------------------------------------------------------
+        put:
+            tags:
+                - s1mple
+            summary: API 02_04
+            description: Cập nhật order
+            parameters:
+                -   name: orderNumber
+                    in: path
+                    required: true
+                    type: integer
+                    minium: 1
+                    maxium: 100
+                    format: int32
+                    description: Mã order
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                orderDate:
+                                    type: string
+                                    format: date
+                                orderShip:
+                                    type: string
+                                    format: date
+                                comment:
+                                    type: string
+                                status:
+                                    type: string
+                                    schema:
+                                        enum:
+                                            - Shipped
+                                            - Resolved
+                                            - Cancelled
+                                            - On Hold
+                                            - Disputed
+                                            - In Process
+            responses:
+                200:
+                    description: Success Response
+                    content:
+                        'application/json':
+                            schema:
+                                type: object
+                                properties:
+                                    orderNumber:
+                                        type: integer
+                                        format: int32
+
+                                    orderStart:
+                                        type: string
+                                        format: date
+                                    orderShip:
+                                        type: string
+                                        format: date
+                                    Status:
+                                        type: string
+                                        default: In Process
+                                        enum:
+                                            - Shipped
+                                            - Resolved
+                                            - Cancelled
+                                            - On Hold
+                                            - Disputed
+                                            - In Process
+                                    comment:
+                                        type: object
+                                        properties:
+                                            customerID:
+                                                type: integer
+                                                format: int32
+                                                example: 100
+                                            lastName:
+                                                type: string
+                                                example: Kostyliev
+                                            firstName:
+                                                type: string
+                                                example: Oleksandr
+                                            address:
+                                                type: object
+                                                properties:
+                                                    address1:
+                                                        type: string
+                                                        example: 123 Main Street Room
+                                                    address2:
+                                                        type: string
+                                                        example: 22 University Dorm
+                                                    State:
+                                                        type: string
+                                                        example: New York
+                                                    Country:
+                                                        type: string
+                                                        example: NA
+                400:
+                    $ref: '#/components/responses/400'
+                500:
+                    $ref: '#/components/responses/500'
+
+
+
+

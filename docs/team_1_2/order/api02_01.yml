@@ -1,0 +1,190 @@
+paths:
+    /api/order:
+        get:
+            tags:
+                - s1mple
+            summary: API_02_01
+            description: API lấy danh sách order kết hợp các điều kiện sau
+                - Search mã order
+                - Theo khoảng thời gian
+                - Theo status
+                - Theo mã khách hàng
+                - Phân trang
+            parameters:
+                -   name: orderNumber
+                    in: query
+                    required: true
+                    type: integer
+                    minium: 1
+                    maxium: 100
+                    format: int32
+                    description: Search theo mã order.
+
+                -   name: orderStart
+                    ỉn: query
+                    required: true
+                    type: string
+                    format: date
+                    description: Order từ ngày.
+
+                -   name: orderEnd
+                    ỉn: query
+                    required: true
+                    type: string
+                    format: date
+                    description: Order đến ngày.
+
+                -   name: status
+                    ỉn: query
+                    required: false
+                    schema:
+                        type: string
+                        default: In Process
+                        enum:
+                            - Shipped
+                            - Resolved
+                            - Cancelled
+                            - On Hold
+                            - Disputed
+                            - In Process
+                    description: Theo status
+
+                -   name: customerID
+                    ỉn: query
+                    required: true
+                    type: integer
+                    format: int32
+                    description: Theo mã khách hàng
+
+                -   name: Page
+                    ỉn: query
+                    required: true
+                    type: integer
+                    format: int32
+                    description: Trang
+
+                -   name: Record
+                    ỉn: query
+                    required: true
+                    type: integer
+                    format: int32
+                    description: Trang
+            responses:
+                200:
+                    description: Success Response
+                    content:
+                        'application/json':
+                            schema:
+                                type: object
+                                properties:
+                                    total:
+                                        type: integer
+                                        format: int32
+                                        example: 100
+                                    orderList:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                orderNumber:
+                                                    type: integer
+                                                    format: int32
+                                                orderStart:
+                                                    type: string
+                                                    format: date
+
+                                                orderEnd:
+                                                    type: string
+                                                    format: date
+
+                                                status:
+                                                    type: string
+                                                    default: In Process
+                                                    enum:
+                                                        - Shipped
+                                                        - Resolved
+                                                        - Cancelled
+                                                        - On Hold
+                                                        - Disputed
+                                                        - In Process
+                                                comment:
+                                                    type: string
+                                                customer:
+                                                    type: object
+                                                    properties:
+                                                        customerID:
+                                                            type: integer
+                                                            format: int32
+                                                        lastName:
+                                                            type: string
+                                                        firstName:
+                                                            type: string
+                                                        address:
+                                                            type: object
+                                                            properties:
+                                                                address1:
+                                                                    type: string
+                                                                address2:
+                                                                    type: string
+                                                                State:
+                                                                    type: string
+                                                                Country:
+                                                                    type: string
+                            examples:
+                                default:
+                                    summary: Success Response Data
+                                    value:
+                                      {
+                                          "total": 100,
+                                          "orderList": [
+                                              {
+                                                  "orderNumber": 101,
+                                                  "orderStart": '2023-01-01',
+                                                  "orderEnd": '2023-02-02',
+                                                  "Status": In Process,
+                                                  "comment": OK,
+                                                  "customer": {
+                                                      "customerID": 100,
+                                                      "lastName": Kostyliev,
+                                                      "firstName": Oleksandr,
+                                                      "address": {
+                                                          "address1": 123 Main Street Room,
+                                                          "address2": 22 University Dorm,
+                                                          "State": New York,
+                                                          "Country": NA
+                                                      }
+                                                  }
+                                              }
+                                          ]
+                                      }
+                500:
+                    description: Internal Server Error Response
+                    headers:
+                        message:
+                            schema:
+                                type: string
+                            description: Message lỗi
+                    content:
+                        'application/json':
+                            schema:
+                                type: object
+                                required:
+                                    - code
+                                    - message
+                                properties:
+                                    code:
+                                        description: The error code
+                                        type: integer
+                                        format: int32
+                                    message:
+                                        description: The overral error message
+                                        type: string
+                            examples:
+                                default:
+                                    summary: Internal Server Error Data
+                                    value:
+                                        code: 500
+                                        message: 'Internal Server Error'
+
+
+
