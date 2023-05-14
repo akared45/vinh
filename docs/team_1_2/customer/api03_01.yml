@@ -1,0 +1,62 @@
+paths:
+    '/api/customers/count-order':
+        # GET --------------------------------------------------------------------------------------------------------------------------------------------
+        get:
+            tags: [ s1mple ]
+            summary: API_03_01
+            description: API lấy ra thông tin số lượng order của từng khách hàng
+            parameters:
+                -   name: orderStart
+                    in: query
+                    required: true
+                    type: string
+                    format: date
+                    description: Order từ ngày
+
+                -   name: orderEnd
+                    in: query
+                    required: true
+                    type: string
+                    format: date
+                    description: Order đến ngày
+            responses:
+                200:
+                    description: Success Response
+                    content:
+                        'application/json':
+                            schema:
+                                type: object
+                                properties:
+                                    customer:
+                                        type: object
+                                        properties:
+                                            customerID:
+                                                type: integer
+                                                format: int32
+                                                example: 100
+                                            lastName:
+                                                type: string
+                                                example: Kostyliev
+                                            firstName:
+                                                type: string
+                                                example: Oleksandr
+                                            address:
+                                                type: object
+                                                properties:
+                                                    address1:
+                                                        type: string
+                                                        example: 123 Main Street Room
+                                                    address2:
+                                                        type: string
+                                                        example: 22 University Dorm
+                                                    State:
+                                                        type: string
+                                                        example: New York
+                                                    Country:
+                                                        type: string
+                                                        example: NA
+                                    OrderQuantity:
+                                        type: integer
+
+                500:
+                    $ref: '#/components/responses/500'

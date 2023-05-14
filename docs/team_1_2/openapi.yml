@@ -1,0 +1,311 @@
+# OpenAPI Document
+# https://swagger.io/specification/
+openapi: 3.0.1
+
+# Info ===============================================================================================================================================
+info:
+    title: Sample APIs
+    description: Sample APIs
+    version: '1.5.1'
+
+# Servers ============================================================================================================================================
+servers:
+    -   url: 'http://localhost:8082'
+        variables:
+    -   url: 'http://localhost:8082/mock-sample-api'
+        variables:
+
+# Security ===============================================================================================================================================
+security:
+    -   JwtBearerAuth: [ ]
+
+# Tags ===============================================================================================================================================
+tags:
+    -   name: Health-Check
+
+# Paths ==============================================================================================================================================
+paths: { }
+
+# Components =========================================================================================================================================
+components:
+    securitySchemes:
+        JwtBearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+    headers:
+        Access-Control-Allow-Origin:
+            schema:
+                type: string
+        Access-Control-Allow-Methods:
+            schema:
+                type: string
+        Access-Control-Allow-Headers:
+            schema:
+                type: string
+    responses:
+        400:
+            description: Bad Request Response
+            headers:
+                code:
+                    schema:
+                        type: string
+                    description: 400 - Bad Request
+            content:
+                'application/json':
+                    schema:
+                        type: object
+                        required:
+                            - code
+                            - message
+                        properties:
+                            code:
+                                description: The error code
+                                type: integer
+                                format: int32
+                            message:
+                                description: The overral error message
+                                type: string
+                            data:
+                                description: The detail errors
+                                type: object
+                                properties:
+                                    key1:
+                                        description: The error messages of key1
+                                        type: array
+                                        items:
+                                            type: string
+                                    key2:
+                                        description: The error messages of key2
+                                        type: array
+                                        items:
+                                            type: string
+                                    key3:
+                                        description: The error messages of key3
+                                        type: array
+                                        items:
+                                            type: string
+                                    key4:
+                                        description: The error messages of key4
+                                        type: array
+                                        items:
+                                            type: string
+                    examples:
+                        default:
+                            summary: Invalid Request
+                            value:
+                                code: 400
+                                message: 'Invalid Request'
+                                data:
+                                    key1:
+                                        - 'Required: The value is required'
+                                    key2:
+                                        - 'Required: The value is required'
+                                    key3:
+                                        - 'Required: The value is required'
+                                    key4:
+                                        - 'Required: The value is required'
+        401:
+            description: Unauthorized Response
+            headers:
+                code:
+                    schema:
+                        type: string
+                    description: 401 - Unauthorized
+            content:
+                'application/json':
+                    schema:
+                        type: object
+                        required:
+                            - code
+                            - message
+                        properties:
+                            code:
+                                description: The error code
+                                type: integer
+                                format: int32
+                            message:
+                                description: The overral error message
+                                type: string
+                            errors:
+                                description: The detail errors
+                                type: array
+                                items:
+                                    type: string
+                    examples:
+                        MissingAuthorizationToken:
+                            summary: Missing Authorization Token
+                            value:
+                                code: 401
+                                message: 'Unauthorized'
+                                errors: [ 'Missing authorization token' ]
+                        IncorrectAuthorizationToken:
+                            summary: Incorrect Authorization Token
+                            value:
+                                code: 401
+                                message: 'Unauthorized'
+                                errors: [ 'Authorization token is incorrect or was expired' ]
+        403:
+            description: Forbidden Response
+            headers:
+                code:
+                    schema:
+                        type: string
+                    description: 403 - Forbidden
+            content:
+                'application/json':
+                    schema:
+                        type: object
+                        required:
+                            - code
+                            - message
+                        properties:
+                            code:
+                                description: The error code
+                                type: integer
+                                format: int32
+                            message:
+                                description: The overral error message
+                                type: string
+                    examples:
+                        default:
+                            summary: Forbidden Data
+                            value:
+                                code: 403
+                                message: 'Forbidden'
+        404:
+            description: Not Found Response
+            headers:
+                code:
+                    schema:
+                        type: string
+                    description: 404 - Not Found
+            content:
+                'application/json':
+                    schema:
+                        type: object
+                        required:
+                            - code
+                            - message
+                        properties:
+                            code:
+                                description: The error code
+                                type: integer
+                                format: int32
+                            message:
+                                description: The overral error message
+                                type: string
+                            errors:
+                                description: The detail errors
+                                type: array
+                                items:
+                                    type: string
+                    examples:
+                        NotFound:
+                            summary: Not Found
+                            value:
+                                code: 404
+                                message: 'Not Found'
+                                errors: [ 'This request is not supported or is not implemented yet' ]
+        405:
+            description: Method Not Allowed Response
+            headers:
+                code:
+                    schema:
+                        type: string
+                    description: 405 - Method Not Allowed
+            content:
+                'application/json':
+                    schema:
+                        type: object
+                        required:
+                            - code
+                            - message
+                        properties:
+                            code:
+                                description: The error code
+                                type: integer
+                                format: int32
+                            message:
+                                description: The overral error message
+                                type: string
+                            errors:
+                                description: The detail errors
+                                type: array
+                                items:
+                                    type: string
+                    examples:
+                        MethodNotAllowed:
+                            summary: Method Not Allowed
+                            value:
+                                code: 401
+                                message: 'Method Not Allowed'
+                                errors: [ 'The path does not support this method yet' ]
+        415:
+            description: Unsupported Media Type Response
+            headers:
+                code:
+                    schema:
+                        type: string
+                    description: 415 - Unsupported Media Type
+            content:
+                'application/json':
+                    schema:
+                        type: object
+                        required:
+                            - code
+                            - message
+                        properties:
+                            code:
+                                description: The error code
+                                type: integer
+                                format: int32
+                            message:
+                                description: The overral error message
+                                type: string
+                            errors:
+                                description: The detail errors
+                                type: array
+                                items:
+                                    type: string
+                    examples:
+                        UnspportAcceptType:
+                            summary: Unsporrted Accept Type
+                            value:
+                                code: 415
+                                message: 'Unsupported Accept Type'
+                                errors: [ 'Only application/json response type is supported' ]
+                        UnspportContentType:
+                            summary: Unsporrted Content Type
+                            value:
+                                code: 415
+                                message: 'Unsupported Content Type'
+                                errors: [ 'Only application/json content type is supported' ]
+        500:
+            description: Internal Server Error Response
+            headers:
+                code:
+                    schema:
+                        type: string
+                    description: 500 - Internal Server Error
+            content:
+                'application/json':
+                    schema:
+                        type: object
+                        required:
+                            - code
+                            - message
+                        properties:
+                            code:
+                                description: The error code
+                                type: integer
+                                format: int32
+                            message:
+                                description: The overral error message
+                                type: string
+                    examples:
+                        default:
+                            summary: Internal Server Error Data
+                            value:
+                                code: 500
+                                message: 'Internal Server Error'
